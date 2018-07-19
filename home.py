@@ -45,11 +45,14 @@ class BoatHandler(webapp2.RequestHandler):
             all_boats = [] 
             boat_query = Boat.query()
             boats = boat_query.fetch()
-            for each_boat in boats:
-                newBoat = each_boat.to_dict()
-                newBoat['self'] = '/boat/' + each_boat.key.urlsafe()
-                all_boats.append(newBoat)
-                self.response.write(json.dumps(all_boats))
+            if boats = None:
+                self.response.write(None)
+            else:
+                for each_boat in boats:
+                    newBoat = each_boat.to_dict()
+                    newBoat['self'] = '/boat/' + each_boat.key.urlsafe()
+                    all_boats.append(newBoat)
+                    self.response.write(json.dumps(all_boats))
 
     def put(self, id=None):
         if id:
