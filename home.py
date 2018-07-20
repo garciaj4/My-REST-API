@@ -31,28 +31,25 @@ class BoatHandler(webapp2.RequestHandler):
         b.put()
 
         boat_dict = b.to_dict()
-        boat_dict['self'] = '/boat/' + b.key.urlsafe()
+        boat_dict['self'] = b.key.urlsafe()
         self.response.write(json.dumps(boat_dict))
 
     def get(self, id=None):
         if id:
             b = ndb.Key(urlsafe=id).get()
             b_d = b.to_dict()
-            b_d['self'] = "/boat/" + id
+            b_d['self'] = id
             self.response.write(json.dumps(b_d))
         #credit to Ian Buchanan on Piazza Post for else block
         else:
             all_boats = [] 
             boat_query = Boat.query()
             boats = boat_query.fetch()
-            if boats = None:
-                self.response.write(None)
-            else:
-                for each_boat in boats:
-                    newBoat = each_boat.to_dict()
-                    newBoat['self'] = '/boat/' + each_boat.key.urlsafe()
-                    all_boats.append(newBoat)
-                    self.response.write(json.dumps(all_boats))
+            for each_boat in boats:
+                newBoat = each_boat.to_dict()
+                newBoat['self'] = each_boat.key.urlsafe()
+                all_boats.append(newBoat)
+            self.response.write(json.dumps(all_boats))
 
     def put(self, id=None):
         if id:
@@ -70,7 +67,7 @@ class BoatHandler(webapp2.RequestHandler):
             b.put()
             b = ndb.Key(urlsafe=id).get()
             b_d = b.to_dict()
-            b_d['self'] = "/boat/" + id
+            b_d['self'] = id
             self.response.write(json.dumps(b_d))
 
     def patch(self, id=None):
@@ -90,7 +87,7 @@ class BoatHandler(webapp2.RequestHandler):
             b.put()
             b = ndb.Key(urlsafe=id).get()
             b_d = b.to_dict()
-            b_d['self'] = "/boat/" + id
+            b_d['self'] = id
             self.response.write(json.dumps(b_d))
 
     def delete(self, id=None):
@@ -104,7 +101,7 @@ class BoatHandler(webapp2.RequestHandler):
                 s.put()
 
             b_d = b.to_dict()
-            b_d['self'] = "/boat/" + id
+            b_d['self'] = id
             self.response.write(json.dumps(b_d))
 
 class SlipHandler(webapp2.RequestHandler):
@@ -119,14 +116,14 @@ class SlipHandler(webapp2.RequestHandler):
             s.date = slip_data['date']
         s.put()
         slip_dict = s.to_dict()
-        slip_dict['self'] = '/slip/' + s.key.urlsafe()
+        slip_dict['self'] = s.key.urlsafe()
         self.response.write(json.dumps(slip_dict))
 
     def get(self, id=None):
         if id:
             s = ndb.Key(urlsafe=id).get()
             s_d = s.to_dict()
-            s_d['self'] = "/slip/" + id
+            s_d['self'] = id
             self.response.write(json.dumps(s_d))
         #credit to Ian Buchanan on Piazza Post for else block
         else:
@@ -135,9 +132,9 @@ class SlipHandler(webapp2.RequestHandler):
             slips = slip_query.fetch()
             for each_slip in slips:
                 newSlip = each_slip.to_dict()
-                newSlip['self'] = '/slip/' + each_slip.key.urlsafe()
+                newSlip['self'] = each_slip.key.urlsafe()
                 all_slips.append(newSlip)
-                self.response.write(json.dumps(all_slips))
+            self.response.write(json.dumps(all_slips))
 
     def put(self, id=None):
         arrival_data = json.loads(self.request.body)
@@ -156,7 +153,7 @@ class SlipHandler(webapp2.RequestHandler):
             b.put()
 
             s_d = s.to_dict()
-            s_d['self'] = "/slip/" + id
+            s_d['self'] = id
             self.response.write(json.dumps(s_d))
 
     def patch(self, id=None):
@@ -171,7 +168,7 @@ class SlipHandler(webapp2.RequestHandler):
                 s.arrival_date = slip_data['arrival_date']
             s.put()
             s_d = s.to_dict()
-            s_d['self'] = "/slip/" + id
+            s_d['self'] = id
             self.response.write(json.dumps(s_d))
 
     def delete(self, id=None):
@@ -186,7 +183,7 @@ class SlipHandler(webapp2.RequestHandler):
                 b.put()
 
             s_d = s.to_dict()
-            s_d['self'] = "/slip/" + id
+            s_d['self'] = id
             self.response.write(json.dumps(s_d))
 
 class SlipBoatHandler(webapp2.RequestHandler):
@@ -196,7 +193,7 @@ class SlipBoatHandler(webapp2.RequestHandler):
             b = ndb.Key(urlsafe=s.current_boat).get()
 
             b_d = b.to_dict()
-            b_d['self'] = "/boat/" + b.key.urlsafe()
+            b_d['self'] = b.key.urlsafe()
             self.response.write(json.dumps(b_d))
 
 class MainPage(webapp2.RequestHandler):
